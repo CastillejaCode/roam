@@ -8,12 +8,25 @@ const loader = new Loader({
 
 export default function useMapLoader(config: google.maps.MapOptions) {
   useEffect(() => {
-    loader.load().then(async () => {
+    let map;
+    async function initMap(): Promise<void> {
       const { Map } = (await google.maps.importLibrary(
         "maps",
       )) as google.maps.MapsLibrary;
+      const { AdvancedMarkerElement } = (await google.maps.importLibrary(
+        "marker",
+      )) as google.maps.MarkerLibrary;
 
-      new Map(document.getElementById("map") as HTMLElement, config);
-    });
-  }, [config]);
+      map = new Map(document.getElementById("map") as HTMLElement, {
+        center: { lat: 34.052, lng: -118.243 },
+        zoom: 10,
+        mapId: process.env.NEXT_PROCESS_MAP_ID,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
+      });
+    }
+
+    initMap();
+  }, []);
 }
