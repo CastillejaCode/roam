@@ -1,5 +1,3 @@
-"use client";
-
 import Feature from "@/features/landing/components/Feature";
 import Link from "next/link";
 
@@ -9,7 +7,6 @@ export default function Home() {
     "Create lists of your favorite places. When you’re done, simply drag and drop them into your schedule.",
     "Free to use, no account required. Or create one to save everything for future inspiration!",
   ];
-
 
   return (
     <main className="relative flex flex-col items-center gap-36 p-20">
