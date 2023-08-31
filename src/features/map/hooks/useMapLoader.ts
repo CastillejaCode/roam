@@ -6,18 +6,14 @@ const loader = new Loader({
   version: "weekly",
 });
 
-export default function useMapLoader(config: google.maps.MapOptions) {
+export default function useMapLoader() {
   useEffect(() => {
-    let map;
-    async function initMap(): Promise<void> {
+    loader.load().then(async () => {
       const { Map } = (await google.maps.importLibrary(
         "maps",
       )) as google.maps.MapsLibrary;
-      const { AdvancedMarkerElement } = (await google.maps.importLibrary(
-        "marker",
-      )) as google.maps.MarkerLibrary;
 
-      map = new Map(document.getElementById("map") as HTMLElement, {
+      let map = new Map(document.getElementById("map") as HTMLElement, {
         center: { lat: 34.052, lng: -118.243 },
         zoom: 10,
         mapId: process.env.NEXT_PROCESS_MAP_ID,
@@ -25,8 +21,6 @@ export default function useMapLoader(config: google.maps.MapOptions) {
         streetViewControl: false,
         fullscreenControl: false,
       });
-    }
-
-    initMap();
-  }, []);
+    });
+  });
 }
