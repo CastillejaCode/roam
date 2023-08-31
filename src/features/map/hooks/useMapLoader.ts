@@ -1,5 +1,5 @@
 import { Loader } from "@googlemaps/js-api-loader";
-import { useEffect } from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 
 const loader = new Loader({
   apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
@@ -16,15 +16,18 @@ const mapOptions = {
 };
 
 export default function useMapLoader() {
+  const ref = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     loader.load().then(async () => {
       const { Map } = (await google.maps.importLibrary(
         "maps",
       )) as google.maps.MapsLibrary;
-      let map = new Map(
-        document.getElementById("map") as HTMLElement,
-        mapOptions,
-      );
+
+      if (!ref.current) return;
+      let map = new Map(ref.current, mapOptions);
     });
   });
+
+  return ref;
 }
